@@ -1,4 +1,6 @@
 import vector_field
+
+
 class ElectricField(vector_field.VectorField):
-  def __init__(self):
-    super().__init__()
+  def __init__(self, size):
+    super().__init__(size)
