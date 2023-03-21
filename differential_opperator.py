@@ -1,4 +1,4 @@
-def crossProduct()
+def crossProduct():
     pass
 def dotProduct():
     pass
