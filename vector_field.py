@@ -3,7 +3,10 @@ import copy
 
 class VectorField():
     def __init__(self, size):
-        self.vectors = [[[vector.Vector() for x in range(size[1])] for x in range(size[1])] for x in range(size[1])]
+        self.xSize = size[0]
+        self.ySize = size[1]
+        self.zSize = size[2]
+        self.vectors = [[[vector.Vector() for x in range(self.xSize)] for y in range(self.ySize)] for z in range(self.zSize)]
         self.nextVectors = copy.deepcopy(self.vectors)
         print(self.vectors)
 

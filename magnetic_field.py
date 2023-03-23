@@ -1,4 +1,5 @@
 import vector_field
+import electric_field
 
 
 class MagneticField(vector_field.VectorField):
