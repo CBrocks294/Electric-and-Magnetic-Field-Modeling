@@ -30,5 +30,6 @@ class Vector:
                 + vect1.yMagnitude * vect2.yMagnitude
                 + vect1.zMagnitude * vect2.zMagnitude)
 
-    def normalise(self, vector):
+    @staticmethod
+    def normalise(vector):
         return vector / vector.modulus
