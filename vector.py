@@ -10,6 +10,12 @@ class Vector:
                       self.YMagnitude + other.YMagnitude,
                       self.ZMagnitude + other.ZMagnitude)
 
+    def __iadd__(self, other):
+        self.xMagnitude += other.xMagnitude
+        self.YMagnitude += other.YMagnitude
+        self.ZMagnitude += other.ZMagnitude
+        return(self)
+
     def __sub__(self, other):
         return Vector(self.xMagnitude - other.xMagnitude,
                       self.YMagnitude - other.YMagnitude,
