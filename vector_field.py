@@ -1,3 +1,5 @@
+# AUTHOR: CHRISTOPHER BROCKLEBANK
+
 import vector
 import copy
 

@@ -1,3 +1,5 @@
+# AUTHOR: CARA THOMPSON
+
 import bpy
 import math 
 import random

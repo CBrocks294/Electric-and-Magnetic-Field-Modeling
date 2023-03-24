@@ -1,3 +1,5 @@
+# AUTHOR: CHRISTOPHER BROCKLEBANK
+
 class Vector:
     def __init__(self, xMagnitude=1, YMagnitude=1, ZMagnitude=1):
         self.xMagnitude = xMagnitude

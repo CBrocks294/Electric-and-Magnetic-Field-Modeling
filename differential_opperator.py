@@ -1,3 +1,5 @@
+# AUTHOR: CHRISTOPHER BROCKLEBANK
+
 def crossProduct():
     pass
 def dotProduct():
