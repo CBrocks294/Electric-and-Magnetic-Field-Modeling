@@ -2,27 +2,25 @@
 
 import electric_field
 import magnetic_field
-import vector
+import time as t
 
 
 def main():
-    a = vector.Vector()
-    b = vector.Vector()
-    c = a + b
-    print(c.xMagnitude)
-    XSIZE = 10
-    YSIZE = 10
-    ZSIZE = 10
+    XSIZE = 100
+    YSIZE = 100
+    ZSIZE = 100
     size = (XSIZE, YSIZE, ZSIZE)
     electricfield = electric_field.ElectricField(size)
     magneticfield = magnetic_field.MagneticField(size)
-    endTime = 100000000
+    endTime = 100
     for time in range(endTime):
         # calculate how field change
-        electricfield.calculateField()
-        magneticfield.calculateField()
+        start = t.time()
+        electricfield.calculateField(magneticfield, time)
+        magneticfield.calculateField(electricfield, time)
         electricfield.updateField()
         magneticfield.updateField()
+        print("iter: " + str(time) + " Time taken: " + str(t.time()-start))
 
         # save changes to sql DB
         pass

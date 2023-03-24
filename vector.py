@@ -1,27 +1,33 @@
 # AUTHOR: CHRISTOPHER BROCKLEBANK
 
 class Vector:
-    def __init__(self, xMagnitude=1, YMagnitude=1, ZMagnitude=1):
+    def __init__(self, xMagnitude=1, yMagnitude=1, zMagnitude=1):
         self.xMagnitude = xMagnitude
-        self.yMagnitude = YMagnitude
-        self.zMagnitude = ZMagnitude
+        self.yMagnitude = yMagnitude
+        self.zMagnitude = zMagnitude
         self.modulus = (self.xMagnitude ** 2 + self.yMagnitude ** 2 + self.zMagnitude ** 2) ** 0.5
 
     def __add__(self, other):
         return Vector(self.xMagnitude + other.xMagnitude,
-                      self.YMagnitude + other.YMagnitude,
-                      self.ZMagnitude + other.ZMagnitude)
+                      self.yMagnitude + other.yMagnitude,
+                      self.zMagnitude + other.zMagnitude)
 
     def __iadd__(self, other):
         self.xMagnitude += other.xMagnitude
-        self.YMagnitude += other.YMagnitude
-        self.ZMagnitude += other.ZMagnitude
+        self.yMagnitude += other.yMagnitude
+        self.zMagnitude += other.zMagnitude
+        return(self)
+
+    def __isub__(self, other):
+        self.xMagnitude -= other.xMagnitude
+        self.yMagnitude -= other.yMagnitude
+        self.zMagnitude -= other.zMagnitude
         return(self)
 
     def __sub__(self, other):
         return Vector(self.xMagnitude - other.xMagnitude,
-                      self.YMagnitude - other.YMagnitude,
-                      self.ZMagnitude - other.ZMagnitude)
+                      self.yMagnitude - other.yMagnitude,
+                      self.zMagnitude - other.zMagnitude)
 
     def __mul__(self, other):
         return Vector(self.xMagnitude * other,

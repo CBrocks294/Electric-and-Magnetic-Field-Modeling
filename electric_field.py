@@ -3,19 +3,22 @@
 import math
 import vector
 import vector_field
+import wire
 
 
 class ElectricField(vector_field.VectorField):
     def __init__(self, size):
         super().__init__(size)
-        self.ELEC_CONST = 8.8541878128(13) / (10 ** 12)
-        self.VAC_CONST = 4 * math.pi / (10 ** 7)
+        self.ELEC_CONST = 8.854187812813 / (10 ** 12)
+        self.MAG_CONST = 4 * math.pi / (10 ** 7)
+        self.wire = wire.Wire(10000, 3, 0.02, 0.1, 0.02, 0.5, 0.2, 0.6)
 
-    def changeVector(self, x, y, z, magField):
-        changeX = (self.deltaFieldZBydeltaY(x, y, z, magField) - self.deltaFieldYBydeltaZ(x, y, z,
-                                                                                          magField)) * self.deltaTime
-        changeY = (self.deltaFieldXBydeltaZ(x, y, z, magField) - self.deltaFieldZBydeltaX(x, y, z,
-                                                                                          magField)) * self.deltaTime
-        changeZ = (self.deltaFieldYBydeltaX(x, y, z, magField) - self.deltaFieldXBydeltaY(x, y, z,
-                                                                                          magField)) * self.deltaTime
-        return vector.Vector(changeX, changeY, changeZ)
+    def changeVector(self, x, y, z, time, magField):
+        changevector = self.numericalCalc(x, y, z, magField)
+        changevector = changevector / self.MAG_CONST
+        changevector -= self.wire.fluxVector(time,
+                                             (x - (self.xSize / 2)) * self.deltaSpace,
+                                             (y - (self.ySize / 2)) * self.deltaSpace,
+                                             z * self.deltaSpace)
+        changevector = changevector / self.ELEC_CONST
+        return changevector
