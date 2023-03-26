@@ -21,17 +21,19 @@ class Wire():
 
     def currentFluxDensity(self, time):
         cross_sectional_area = self.wireRadius ** 2 * math.pi
-        return self.current(time) / cross_sectional_area
+        return self.current(time) / cross_sectional_area/10**20
 
     def inWire(self, x, y, z):
-        return ((x - math.sin(z / self.turnRate)) ** 2 + (y - math.cos(z / self.turnRate)) ** 2 <= self.wireRadius
+        return ((x - math.sin(z * self.turnRate)*self.coilRadius) ** 2
+                + (y - math.cos(z * self.turnRate)*self.coilRadius) ** 2 <= self.wireRadius
                 and (z > self.start) and z < self.end)
 
     def fluxVector(self, time, x, y, z):
         if self.inWire(x, y, z):
-            return (vector.Vector.normalise(vector.Vector(math.cos(z/self.turnrate)*2*math.pi,
-                                                          - math.sin(z/self.turnrate)*2*math.pi,
+            vect = (vector.Vector.normalise(vector.Vector(math.cos(z*self.turnRate*2*math.pi)*2*math.pi,
+                                                          - math.sin(z*self.turnRate*2*math.pi)*2*math.pi,
                                                           self.turnRate))
                     * self.currentFluxDensity(time))
+            return vect
         else:
             return vector.Vector(0, 0, 0)

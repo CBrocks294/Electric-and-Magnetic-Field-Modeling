@@ -18,9 +18,11 @@ def main():
         start = t.time()
         electricfield.calculateField(magneticfield, time)
         magneticfield.calculateField(electricfield, time)
+        print(str(electricfield.divergenceVariance()) + " ", end='')
+        print(str(magneticfield.divergenceVariance()) + " ", end='')
         electricfield.updateField()
         magneticfield.updateField()
-        print("iter: " + str(time) + " Time taken: " + str(t.time()-start))
+        print("iter: " + str(time) + " Time taken: " + str(t.time() - start))
 
         # save changes to sql DB
         pass

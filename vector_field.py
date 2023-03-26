@@ -2,6 +2,7 @@
 
 import vector
 import copy
+from multiprocessing import Pool
 
 
 class VectorField():
@@ -13,7 +14,7 @@ class VectorField():
                         range(self.zSize)]
         self.nextVectors = copy.deepcopy(self.vectors)
         self.deltaSpace = 0.01
-        self.deltaTime = 0.000000001
+        self.deltaTime = 0.00001
 
     def updateField(self):
         del self.vectors
@@ -24,6 +25,18 @@ class VectorField():
             for y in range(self.ySize):
                 for x in range(self.xSize):
                     self.nextVectors[z][y][x] += self.changeVector(x, y, z, time, otherField)
+
+    def divergenceVariance(self):
+        sumSquares = 0
+        number = 0
+        for z in range(1, self.zSize - 1):
+            for y in range(1, self.ySize - 1):
+                for x in range(1, self.xSize - 1):
+                    sumSquares += self.vectors[z][y][x].modulus
+                    number += 1
+        variance = sumSquares / number
+        return variance
+
 
     def changeVector(self, x, y, z, time, otherField):
         raise NotImplementedError("Must override changeX")
@@ -66,6 +79,14 @@ class VectorField():
         else:
             return (Field.vectors[x][y - 1][z].xMagnitude - Field.vectors[x][y + 1][z].xMagnitude) / (2 * self.deltaSpace)
 
+    def deltaFieldYBydeltaY(self, x, y, z, Field):
+        if y == 0:
+            return (Field.vectors[x][y][z].yMagnitude - Field.vectors[x][y + 1][z].yMagnitude) / self.deltaSpace
+        elif y == (self.ySize - 1):
+            return (Field.vectors[x][y - 1][z].yMagnitude - Field.vectors[x][y][z].yMagnitude) / self.deltaSpace
+        else:
+            return (Field.vectors[x][y - 1][z].yMagnitude - Field.vectors[x][y + 1][z].yMagnitude) / (2 * self.deltaSpace)
+
     def deltaFieldZBydeltaY(self, x, y, z, Field):
         if y == 0:
             return (Field.vectors[x][y][z].zMagnitude - Field.vectors[x][y + 1][z].zMagnitude) / self.deltaSpace
@@ -89,4 +110,13 @@ class VectorField():
             return (Field.vectors[x][y][z - 1].yMagnitude - Field.vectors[x][y][z].yMagnitude) / self.deltaSpace
         else:
             return (Field.vectors[x][y][z - 1].yMagnitude - Field.vectors[x][y][z + 1].yMagnitude) / (2 * self.deltaSpace)
+
+    def deltaFieldZBydeltaZ(self, x, y, z, Field):
+        if z == 0:
+            return (Field.vectors[x][y][z].zMagnitude - Field.vectors[x][y][z + 1].zMagnitude) / self.deltaSpace
+        elif z == (self.zSize - 1):
+            return (Field.vectors[x][y][z - 1].zMagnitude - Field.vectors[x][y][z].zMagnitude) / self.deltaSpace
+        else:
+            return (Field.vectors[x][y][z - 1].zMagnitude - Field.vectors[x][y][z + 1].zMagnitude) / (
+                    2 * self.deltaSpace)
 

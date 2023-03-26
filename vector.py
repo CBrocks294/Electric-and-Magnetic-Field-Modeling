@@ -1,4 +1,6 @@
 # AUTHOR: CHRISTOPHER BROCKLEBANK
+import random
+
 
 class Vector:
     def __init__(self, xMagnitude=1, yMagnitude=1, zMagnitude=1):
@@ -16,12 +18,14 @@ class Vector:
         self.xMagnitude += other.xMagnitude
         self.yMagnitude += other.yMagnitude
         self.zMagnitude += other.zMagnitude
+        self.modulus = (self.xMagnitude ** 2 + self.yMagnitude ** 2 + self.zMagnitude ** 2) ** 0.5
         return(self)
 
     def __isub__(self, other):
         self.xMagnitude -= other.xMagnitude
         self.yMagnitude -= other.yMagnitude
         self.zMagnitude -= other.zMagnitude
+        self.modulus = (self.xMagnitude ** 2 + self.yMagnitude ** 2 + self.zMagnitude ** 2) ** 0.5
         return(self)
 
     def __sub__(self, other):
@@ -37,6 +41,7 @@ class Vector:
     def __truediv__(self, other):
         if other == 0:
             raise Exception(ZeroDivisionError)
+
         return self * (1 / other)
 
     def dotProduct(self, vect1, vect2):
